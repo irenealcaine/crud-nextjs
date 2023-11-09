@@ -11,10 +11,13 @@ export default function Home() {
   ])
 
   const [total, setTotal] = useState(0)
-  const [newItem, setNewItem] = useState({ name: "", price: "" })
+  const [newItem, setNewItem] = useState({ name: "", price: 0 })
 
   const addItem = async (e) => {
     e.preventDefault()
+    if (newItem.name !== "" && newItem.price !== 0) {
+      setItems([...items, newItem])
+    }
   }
 
   return (
@@ -23,9 +26,9 @@ export default function Home() {
         <h1>Expense tracker</h1>
         <div>
           <form className="flex gap-3 p-4 rounded bg-slate-900">
-            <input type="text" placeholder="Enter Item" />
-            <input type="number" placeholder="Enter €" />
-            <button type="submit" className="p-2 text-center bg-slate-800">+</button>
+            <input value={newItem.name} onChange={(e) => setNewItem({ ...newItem, name: e.target.value })} type="text" placeholder="Enter Item" />
+            <input value={newItem.price} onChange={(e) => setNewItem({ ...newItem, price: e.target.value })} type="number" placeholder="Enter €" />
+            <button onClick={addItem} type="submit" className="p-2 text-center bg-slate-800">+</button>
           </form>
           <ul>
             {items.map((item, id) => (
